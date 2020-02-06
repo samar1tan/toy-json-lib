@@ -1,5 +1,5 @@
-# json-lib
-json parser &amp; generator
+# toy-json-lib
+toy-level json parser &amp; generator
 
 ## Get Started: What's JSON?
 - JavaScript Object Notation
