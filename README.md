@@ -35,9 +35,12 @@ json parser &amp; generator
 ## References
 [1] Introducing JSON
 https://json.org
+
 [2] JSON from Wikipedia
 https://en.wikipedia.org/wiki/JSON
+
 [3] The Rise and Rise of JSON by Two-Bit History
 https://twobithistory.org/2017/09/21/the-rise-and-rise-of-json.html
+
 [4] 从零开始的JSON库教程 by Milo Yip
 https://zhuanlan.zhihu.com/p/22457315 
