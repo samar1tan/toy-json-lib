@@ -229,7 +229,12 @@ static int lept_parse_array(lept_context* c, lept_value* v) {
             v->type = LEPT_ARRAY;
             v->u.a.size = size;
             size *= sizeof(lept_value);
-            memcpy(v->u.a.e = (lept_value*)malloc(size), lept_context_pop(c, size), size);
+            v->u.a.e = (lept_value*)malloc(size);
+            if (!v->u.a.e) {
+                lept_context_pop(c, size);
+                return LEPT_PARSE_MEMORY_ERROR;
+            }
+            memcpy(v->u.a.e, lept_context_pop(c, size), size);
             return LEPT_PARSE_OK;
         }
         else {
@@ -268,7 +273,12 @@ static int lept_parse_object(lept_context* c, lept_value* v) {
         }
         if ((ret = lept_parse_string_raw(c, &str, &m.klen)) != LEPT_PARSE_OK)
             break;
-        memcpy(m.k = (char*)malloc(m.klen + 1), str, m.klen);
+        m.k = (char*)malloc(m.klen + 1);
+        if (!m.k) {
+            ret = LEPT_PARSE_MEMORY_ERROR;
+            break;
+        }
+        memcpy(m.k, str, m.klen);
         m.k[m.klen] = '\0';
         /* parse ws colon ws */
         lept_parse_whitespace(c);
@@ -295,7 +305,12 @@ static int lept_parse_object(lept_context* c, lept_value* v) {
             c->json++;
             v->type = LEPT_OBJECT;
             v->u.o.size = size;
-            memcpy(v->u.o.m = (lept_member*)malloc(s), lept_context_pop(c, s), s);
+            v->u.o.m = (lept_member*)malloc(s);
+            if (!v->u.o.m) {
+                lept_context_pop(c, s);
+                return LEPT_PARSE_MEMORY_ERROR;
+            }
+            memcpy(v->u.o.m, lept_context_pop(c, s), s);
             return LEPT_PARSE_OK;
         }
         else {
@@ -446,6 +461,10 @@ char* lept_stringify(const lept_value* v, size_t* length) {
     lept_context c;
     assert(v != NULL);
     c.stack = (char*)malloc(c.size = LEPT_PARSE_STRINGIFY_INIT_SIZE);
+    if (!c.stack) {
+        if (length) *length = 0;
+        return NULL;
+    }
     c.top = 0;
     lept_stringify_value(&c, v);
     if (length)
@@ -518,6 +537,10 @@ void lept_set_string(lept_value* v, const char* s, size_t len) {
     assert(v != NULL && (s != NULL || len == 0));
     lept_free(v);
     v->u.s.s = (char*)malloc(len + 1);
+    if (!v->u.s.s) {
+        v->type = LEPT_NULL;
+        return;
+    }
     memcpy(v->u.s.s, s, len);
     v->u.s.s[len] = '\0';
     v->u.s.len = len;
