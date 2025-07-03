@@ -1,5 +1,10 @@
+
 #ifndef LEPTJSON_H__
 #define LEPTJSON_H__
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <stddef.h> /* size_t */
 
@@ -69,4 +74,7 @@ const char* lept_get_object_key(const lept_value* v, size_t index);
 size_t lept_get_object_key_length(const lept_value* v, size_t index);
 lept_value* lept_get_object_value(const lept_value* v, size_t index);
 
+#ifdef __cplusplus
+}
+#endif
 #endif /* LEPTJSON_H__ */
