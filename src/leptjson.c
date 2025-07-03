@@ -96,6 +96,13 @@ static int lept_parse_number(lept_context* c, lept_value* v) {
     return LEPT_PARSE_OK;
 }
 
+/*
+ * Internal function: parses 4 hex digits from the input string.
+ *
+ * Assumes the input pointer 'p' points to at least 4 valid hex digits.
+ * The caller is responsible for ensuring input validity.
+ * Returns the pointer after the parsed digits, or NULL if invalid (checked by caller).
+ */
 static const char* lept_parse_hex4(const char* p, unsigned* u) {
     int i;
     *u = 0;
