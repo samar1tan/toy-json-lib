@@ -31,7 +31,41 @@ toy-level json parser &amp; generator
   - cross-platform
   - unified code style
   - dev tools: CMake, Valgrind, Doxygen, etc.
-  
+
+## Build and Test with CMake
+
+This project uses CMake for cross-platform builds and testing.
+
+### Prerequisites
+- CMake 3.10 or newer
+- A C compiler (e.g., gcc, clang, MSVC)
+
+### Build Steps
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/yourusername/toy-json-lib.git
+   cd toy-json-lib
+   ```
+2. Create a build directory and run CMake:
+   ```sh
+   cmake -S . -B build
+   ```
+3. Build the project:
+   ```sh
+   cmake --build build
+   ```
+
+### Run Tests
+
+After building, run the tests with:
+```sh
+cd build
+ctest --output-on-failure
+```
+
+This will execute the test suite and show detailed output if any test fails.
+
 ## References
 [1] Introducing JSON
 https://json.org
@@ -43,4 +77,4 @@ https://en.wikipedia.org/wiki/JSON
 https://twobithistory.org/2017/09/21/the-rise-and-rise-of-json.html
 
 [4] 从零开始的JSON库教程 by Milo Yip
-https://zhuanlan.zhihu.com/p/22457315 
+https://zhuanlan.zhihu.com/p/22457315
