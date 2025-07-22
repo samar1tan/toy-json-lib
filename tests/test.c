@@ -445,6 +445,19 @@ static void test_access_string() {
     lept_free(&v);
 }
 
+static void test_find_object_value() {
+    lept_value v;
+    const lept_value* bv;
+    lept_init(&v);
+    EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v, "{\"a\":1,\"b\":2}"));
+    bv = lept_find_object_value(&v, "b", 1);
+    EXPECT_TRUE(bv != NULL);
+    EXPECT_EQ_INT(LEPT_NUMBER, lept_get_type(bv));
+    EXPECT_EQ_DOUBLE(2.0, lept_get_number(bv));
+    EXPECT_TRUE(lept_find_object_value(&v, "c", 1) == NULL);
+    lept_free(&v);
+}
+
 static void test_parse() {
 	test_parse_null();
 	test_parse_true();
@@ -474,6 +487,7 @@ static void test_access() {
     test_access_boolean();
     test_access_number();
     test_access_string();
+    test_find_object_value();
 }
 
 static void test_stringify() {

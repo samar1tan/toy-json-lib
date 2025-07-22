@@ -587,3 +587,13 @@ lept_value* lept_get_object_value(const lept_value* v, size_t index) {
     assert(index < v->u.o.size);
     return &v->u.o.m[index].v;
 }
+
+const lept_value* lept_find_object_value(const lept_value* v, const char* key, size_t klen) {
+    size_t i;
+    assert(v != NULL && v->type == LEPT_OBJECT && key != NULL);
+    for (i = 0; i < v->u.o.size; i++) {
+        if (v->u.o.m[i].klen == klen && memcmp(v->u.o.m[i].k, key, klen) == 0)
+            return &v->u.o.m[i].v;
+    }
+    return NULL;
+}
