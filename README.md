@@ -66,6 +66,16 @@ ctest --output-on-failure
 
 This will execute the test suite and show detailed output if any test fails.
 
+### Generate Documentation
+
+API documentation can be generated using Doxygen:
+
+```sh
+doxygen Doxyfile
+```
+
+The generated HTML files will be placed in the `docs` directory.
+
 ## References
 [1] Introducing JSON
 https://json.org
@@ -78,3 +88,7 @@ https://twobithistory.org/2017/09/21/the-rise-and-rise-of-json.html
 
 [4] 从零开始的JSON库教程 by Milo Yip
 https://zhuanlan.zhihu.com/p/22457315
+
+## License
+
+This project is distributed under the terms of the GNU General Public License version 3.0. See the [LICENSE](LICENSE) file for details.
