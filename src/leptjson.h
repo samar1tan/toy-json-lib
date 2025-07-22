@@ -1,6 +1,10 @@
 
 #ifndef LEPTJSON_H__
 #define LEPTJSON_H__
+/**
+ * @file leptjson.h
+ * @brief Minimal JSON parser and generator.
+ */
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,24 +14,27 @@ extern "C" {
 
 typedef enum { LEPT_NULL, LEPT_FALSE, LEPT_TRUE, LEPT_NUMBER, LEPT_STRING, LEPT_ARRAY, LEPT_OBJECT } lept_type;
 
-typedef struct lept_value lept_value;
+typedef struct lept_value lept_value; /**< JSON value type */
 typedef struct lept_member lept_member;
 
+/** JSON value */
 struct lept_value {
     union {
-        struct { lept_member* m; size_t size; }o;   /* object: members, member count */
-        struct { lept_value* e; size_t size; }a;    /* array:  elements, element count */
-        struct { char* s; size_t len; }s;           /* string: null-terminated string, string length */
-        double n;                                   /* number */
+        struct { lept_member* m; size_t size; }o;   /**< object: members and count */
+        struct { lept_value* e; size_t size; }a;    /**< array: elements and count */
+        struct { char* s; size_t len; }s;           /**< string and length */
+        double n;                                   /**< number */
     }u;
-    lept_type type;
+    lept_type type;                                 /**< value type */
 };
 
+/** member of an object */
 struct lept_member {
-    char* k; size_t klen;   /* member key string, key string length */
-    lept_value v;           /* member value */
+    char* k; size_t klen;   /**< member key string and length */
+    lept_value v;           /**< member value */
 };
 
+/** error codes for parsing */
 enum {
     LEPT_PARSE_OK = 0,
     LEPT_PARSE_EXPECT_VALUE,
@@ -48,7 +55,9 @@ enum {
 
 #define lept_init(v) do { (v)->type = LEPT_NULL; } while(0)
 
+/** parse JSON string */
 int lept_parse(lept_value* v, const char* json);
+/** stringify JSON value, return null-terminated string */
 char* lept_stringify(const lept_value* v, size_t* length);
 
 void lept_free(lept_value* v);
@@ -66,6 +75,11 @@ void lept_set_number(lept_value* v, double n);
 const char* lept_get_string(const lept_value* v);
 size_t lept_get_string_length(const lept_value* v);
 void lept_set_string(lept_value* v, const char* s, size_t len);
+/**
+ * Set string value with error reporting.
+ * @return LEPT_PARSE_OK on success, otherwise LEPT_PARSE_MEMORY_ERROR.
+ */
+int lept_set_string_ex(lept_value* v, const char* s, size_t len);
 
 size_t lept_get_array_size(const lept_value* v);
 lept_value* lept_get_array_element(const lept_value* v, size_t index);
